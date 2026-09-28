@@ -1,4 +1,4 @@
-# React - Quick Start
+# React - Quick Start and Basic Components
 
 ## What is JSX?
 
