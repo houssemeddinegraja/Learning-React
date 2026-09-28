@@ -110,3 +110,22 @@ code {
   background: var(--code-bg);
 }
 
+.button {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 135%;
+  letter-spacing: -0.24px;
+  color: var(--text-h);
+  border-radius: 6px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  padding: 8px 16px;
+  &:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+  &:active {
+    background: black;
+    color: #fff;
+  }
+}
