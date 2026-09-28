@@ -48,6 +48,32 @@ function ButtonFunc( { text, bgColor, color, fontSize, handleClick } ) {
   return <button style={styles} onClick={handleClick}>{text}</button>
 }
 
+function ListItem(props) {
+  return <li>{props.animal}</li>
+}
+
+function List(props) {
+  return (
+    <ul>
+      {props.animals.map((animal) => {
+        return <ListItem key={animal} animal={animal} />;
+      })}
+    </ul>
+  );
+}
+
+function List2(props) {
+  return (
+    <ul>
+      {props.animals.map((animal) => {
+        return animal.startsWith("L") && <li key={animal}>{animal}</li>;
+      })}
+    </ul>
+  );
+}
+
+
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -56,7 +82,14 @@ function App() {
   };
 
   const superstars = ['Randy Orton', 'John Cena', 'Steve Austin', 'Shawn Michaels', 'Brock Lesnar', 'Seth Rollins', 'Edge'];
+  const animals = ["Lion", "Cow", "Snake", "Lizard"];
 
+  // a list of todos, each todo object has a task and an id
+  const todos = [
+    { task: "mow the yard", id: crypto.randomUUID() },
+    { task: "Work on Odin Projects", id: crypto.randomUUID() },
+    { task: "feed the cat", id: crypto.randomUUID() },
+  ];
   return (
     <>
       <h1>Hello there, React !</h1>
@@ -78,7 +111,21 @@ function App() {
           <li key={superstar}>{superstar}</li>
         ))}
       </ul>
-    </>
+
+      <h1>Rendering a list of components of animals with JSX:</h1>
+      <List animals={animals} />
+
+      <h1>CONDITIONAL rendering of animals starting with "L": </h1>
+      <List2 animals={animals} />
+
+      <h3>Todo List:</h3>
+      <ul>
+      {todos.map((todo) => (
+        // here we are using the already generated id as the key.
+        <li key={todo.id}>{todo.task}</li>
+      ))}
+    </ul>
+    </> 
   )
 }
 
