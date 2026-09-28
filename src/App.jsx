@@ -55,6 +55,8 @@ function App() {
     setCount(count + 1);
   };
 
+  const superstars = ['Randy Orton', 'John Cena', 'Steve Austin', 'Shawn Michaels', 'Brock Lesnar', 'Seth Rollins', 'Edge'];
+
   return (
     <>
       <h1>Hello there, React !</h1>
@@ -69,6 +71,13 @@ function App() {
       <Button4 bgColor="orange" fontSize={22} />
       <ButtonFunc text="I'm a button with a click handler" bgColor="lightblue" color="darkblue" fontSize={20} handleClick={handleClickButton} />
       {count > 0 && <h2>BUTTON WITH CLICK HANDLER CLICKED {count} TIMES!</h2>}
+    
+      <h2>Rendering a list of superstars with JSX:</h2>
+      <ul>
+        {superstars.map((superstar) => (
+          <li key={superstar}>{superstar}</li>
+        ))}
+      </ul>
     </>
   )
 }
