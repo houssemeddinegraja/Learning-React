@@ -72,7 +72,32 @@ function List2(props) {
   );
 }
 
+function Person() {
+  const [person, setPerson] = useState({ name: "John", age: 100 });
 
+  // BAD - Don't do this!
+  const handleIncreaseAge1 = () => {
+    // mutating the current state object
+    person.age = person.age + 1;
+    setPerson(person);
+  };
+
+  // GOOD - Do this!
+  const handleIncreaseAge2 = () => {
+    // copy the existing person object into a new object
+    // while updating the age property
+    const newPerson = { ...person, age: person.age + 1 };
+    setPerson(newPerson);
+  };
+
+  return (
+    <>
+      <h1>{person.name}</h1>
+      <h2>{person.age}</h2>
+      <button onClick={handleIncreaseAge2}>Increase age</button>
+    </>
+  );
+}
 
 function App() {
   const [count, setCount] = useState(0)
@@ -125,6 +150,8 @@ function App() {
         <li key={todo.id}>{todo.task}</li>
       ))}
     </ul>
+
+    <Person />
     </> 
   )
 }
