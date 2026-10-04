@@ -76,6 +76,56 @@ useEffect(() => {
 }, [userId]);
 ```
 
+### Example: the tab title follows the name
+
+From the CV app: show the typed name in the browser tab.
+
+```jsx
+useEffect(() => {
+  document.title = info.name || 'CV Filler';
+}, [info.name]);
+```
+
+- **On load:** the first render always runs the effect. `info.name` is `''`, so the title is "CV Filler".
+- **While typing:** each keystroke changes `info.name`, so the effect runs again and the title follows.
+- **With `[]` instead:** the effect runs once, so the title stays "CV Filler" however much you type.
+
+### Example: fetching data when the page opens
+
+```jsx
+function Committee() {
+  const [members, setMembers] = useState([]);
+
+  useEffect(() => {
+    async function loadMembers() {
+      const res = await fetch('/api/committee');
+      const data = await res.json();
+      setMembers(data);
+    }
+    loadMembers();
+  }, []);
+
+  return (
+    <ul>
+      {members.map(m => (
+        <li key={m.id}>{m.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+- **`[]`** because the fetch reads no value that changes. If it read one (like `year`), the array would be `[year]`.
+- **The `async` function lives inside the effect.** The function passed to `useEffect` can't be `async`: React expects it to return nothing or a cleanup function, and an `async` function returns a promise.
+- **`useState([])`** gives the first render (before any data arrives) an empty array that `.map` can loop over.
+
+**Order of execution**
+1. Render 1: `members` is `[]`, so the list is empty.
+2. After the screen updates, the effect runs and starts the fetch.
+3. The data arrives and `setMembers(data)` changes the state.
+4. Render 2 (a re-render): `members` is full, so the list shows.
+5. React checks the array: `[]` hasn't changed, so the effect does **not** run again.
+
 ## 5. The cleanup function
 
 If the effect **starts** something, the cleanup **stops** it.
@@ -114,6 +164,13 @@ const sum = number1 + number2;
 // User events: use event props, not effects
 <input onChange={handleInput} value={input} />
 ```
+
+**Event handler or effect?**
+
+| It runs because...                             | Where it goes        | Example                                                                     |
+|------------------------------------------------|----------------------|-----------------------------------------------------------------------------|
+| The user did something                         | An **event handler** | The Save button; a login `fetch` on submit                                  |
+| The component is on screen, or a value changed | **`useEffect`**      | Loading a list when a page opens; updating the tab title as a name changes |
 
 - **Reset state when something changes:** give the component a `key`.
 - **Share state between components:** lift it up to the common parent.
