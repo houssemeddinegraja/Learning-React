@@ -1,7 +1,5 @@
 # Fetching Data in React
 
-> Summary of The Odin Project lesson "Fetching Data In React". Every code line has a plain-English comment.
-> In JSX, comments look like `{/* ... */}`. In normal JavaScript lines they look like `// ...`.
 
 ## 1. The big picture
 
@@ -46,9 +44,9 @@ const Image = () => {
 
   return ( 
     imageURL && (
-      <> {/* an empty wrapper that lets us return several elements together */}
+      <>
         <h1>An image</h1> {/* a big heading */}
-        <img src={imageURL} alt={"placeholder text"} /> {/* show the photo using the saved link; alt is the text for screen readers */}
+        <img src={imageURL} alt={"placeholder text"} /> 
       </> 
     ) 
   ); 
@@ -95,9 +93,9 @@ if (error) return <p>A network error was encountered</p>;
 
 return ( 
   imageURL && ( 
-    <> {/* wrapper for several elements */}
-      <h1>An image</h1> {/* heading */}
-      <img src={imageURL} alt={"placeholder text"} /> {/* the photo */}
+    <>
+      <h1>An image</h1>
+      <img src={imageURL} alt={"placeholder text"} /> 
     </> 
   ) 
 ); 
@@ -128,10 +126,10 @@ const Image = () => {
 
   if (loading) return <p>Loading...</p>; 
   if (error) return <p>A network error was encountered</p>; 
-  return ( // if we get here, everything worked
-    <> {/* wrapper for several elements */}
-      <h1>An image</h1> {/* heading */}
-      <img src={imageURL} alt={"placeholder text"} /> {/* the photo */}
+  return ( 
+    <> 
+      <h1>An image</h1> 
+      <img src={imageURL} alt={"placeholder text"} />
     </> 
   ); 
 }; 
@@ -153,9 +151,9 @@ All that fetching code makes the component long. We can move it into our own **c
 import { useState, useEffect } from "react"; 
 
 const useImageURL = () => { 
-  const [imageURL, setImageURL] = useState(null); // memory for the photo link
-  const [error, setError] = useState(null); // memory for an error
-  const [loading, setLoading] = useState(true); // memory for "still waiting?"
+  const [imageURL, setImageURL] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => { // run this after the component first appears
     fetch("https://picsum.photos/v2/list") // ask the server for the list of photos
@@ -170,19 +168,19 @@ const useImageURL = () => {
       .finally(() => setLoading(false)); // either way, we're done waiting
   }, []); // run only once
 
-  return { imageURL, error, loading };
+  return { imageURL, error, loading }; // hand the three values back to whoever called this hook
 }; 
 
 const Image = () => { 
-  const { imageURL, error, loading } = useImageURL();
+  const { imageURL, error, loading } = useImageURL(); // call our hook and take the three values it gives back
 
   if (loading) return <p>Loading...</p>; 
   if (error) return <p>A network error was encountered</p>; 
 
   return ( 
-    <> {/* wrapper for several elements */}
-      <h1>An image</h1> {/* heading */}
-      <img src={imageURL} alt={"placeholder text"} /> {/* the photo */}
+    <>
+      <h1>An image</h1>
+      <img src={imageURL} alt={"placeholder text"} />
     </>
   ); 
 }; 
